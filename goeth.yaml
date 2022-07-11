@@ -23,6 +23,7 @@
         recreate: yes
         image: "{{ goeth_docker_image }}"
         command: --http --http.corsdomain * --http.port 8545 --http.addr 0.0.0.0
+        restart_policy: unless-stopped
         ports:
          - "30303:30303"
          - "8545:8545"
@@ -38,6 +39,12 @@
       apt:
         name: ['nginx']
         state: latest
+    
+    - name: start Nginx
+      service:
+        name: nginx
+        state: started
+
 
     - name: delete default nginx site
       file:
